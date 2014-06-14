@@ -2,19 +2,18 @@
 #include "MethodCaller.h"
 using namespace std;
 
-void do_something(functor* callback);
+void do_something(caller* callback);
 
-class Car 
+class Class
 {
 	public: 
-		void color() { cout << "red" << endl; }
+		void method() { cout << "method() called" << endl; }
 };
 
 int main()
 {
-	Car car;
-	do_something(back);
-	do_something(newCallback(car, &Car::color));
+	Class c;
+	do_something(make_caller(c, &Class::method));
 	
 	return 0;
 }
