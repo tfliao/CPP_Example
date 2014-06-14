@@ -1,32 +1,31 @@
 #ifndef __METHODCALLER__
 #define __METHODCALLER__
 
-class functor
+class caller
 {
 	public:
-		virtual ~functor() {}
+		virtual ~caller() {}
 		virtual void operator()() = 0;
 };
 
-
-template<class C, typename F>
-class MethodCaller : public functor
+template<class Class, typename Function>
+class MethodCaller : public caller
 {
-	C& ins;
-	F fun;
+	Class& _ref;
+	Function _f;
 	public:
-		MethodCaller(C& c, F f) : ins(c), fun(f) {}
+		MethodCaller(Class& c, Function f) : _ref(c), _f(f) {}
 		~MethodCaller() {}
 		
 		void operator()() {
-			(ins.*fun) ();
+			(_ref.*_f) ();
 		}
 };
 
-template<class C, typename F>
-MethodCaller<C, F>* newCallback(C& c, F f) 
+template<class Class, typename Function>
+MethodCaller<Class, Function>* make_caller(Class& c, Function f) 
 {
-	return new MethodCaller<C,F>(c,f);
+	return new MethodCaller<Class, Function>(c,f);
 }
 
 #endif
